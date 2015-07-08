@@ -1,0 +1,42 @@
+From a874768915a2e4c41d9ee20c44bd25538d88ead0 Mon Sep 17 00:00:00 2001
+From: Andrea Righi <andrea@betterlinux.com>
+Date: Wed, 8 Jul 2015 11:12:37 +0200
+Subject: [PATCH 2/2] export alarm timer features to LKM
+
+Signed-off-by: Andrea Righi <andrea@betterlinux.com>
+---
+ drivers/rtc/alarm.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/rtc/alarm.c b/drivers/rtc/alarm.c
+index 28b0df8..862711a 100644
+--- a/drivers/rtc/alarm.c
++++ b/drivers/rtc/alarm.c
+@@ -161,7 +161,7 @@ void alarm_init(struct alarm *alarm,
+ 
+ 	pr_alarm(FLOW, "created alarm, type %d, func %pF\n", type, function);
+ }
+-
++EXPORT_SYMBOL(alarm_init);
+ 
+ /**
+  * alarm_start_range - (re)start an alarm
+@@ -179,6 +179,7 @@ void alarm_start_range(struct alarm *alarm, ktime_t start, ktime_t end)
+ 	alarm_enqueue_locked(alarm);
+ 	spin_unlock_irqrestore(&alarm_slock, flags);
+ }
++EXPORT_SYMBOL(alarm_start_range);
+ 
+ /**
+  * alarm_try_to_cancel - try to deactivate an alarm
+@@ -237,6 +238,7 @@ int alarm_cancel(struct alarm *alarm)
+ 		cpu_relax();
+ 	}
+ }
++EXPORT_SYMBOL(alarm_cancel);
+ 
+ /**
+  * alarm_set_rtc - set the kernel and rtc walltime
+-- 
+1.9.1
+
